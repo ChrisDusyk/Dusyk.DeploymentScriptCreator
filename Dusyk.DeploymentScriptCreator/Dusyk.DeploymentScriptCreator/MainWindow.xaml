@@ -1,12 +1,27 @@
 ﻿<Window x:Class="Dusyk.DeploymentScriptCreator.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Dusyk.DeploymentScriptCreator"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:local="clr-namespace:Dusyk.DeploymentScriptCreator"
+		mc:Ignorable="d"
+		Title="MainWindow" Height="600" Width="800">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="20" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="20" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="20" />
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="20" />
+		</Grid.ColumnDefinitions>
+		<StackPanel Margin="10,0,10,0" Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
+			<Label x:Name="OutputFolderLabel" Content="Output Folder:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+			<TextBox x:Name="OutputFolderTextbox" Height="23" Margin="0,3,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="480"/>
+			<Button x:Name="OutputFolderDialogSelector" Content="..." VerticalAlignment="Center" Margin="5,4" Width="30" Click="OutputFolderDialogSelector_Click" />
+		</StackPanel>
+
+	</Grid>
 </Window>
