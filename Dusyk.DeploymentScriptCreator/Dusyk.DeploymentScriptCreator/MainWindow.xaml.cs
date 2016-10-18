@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Forms;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using Dusyk.DeploymentScriptCreator.Oracle;
 
 namespace Dusyk.DeploymentScriptCreator
 {
@@ -84,6 +85,24 @@ namespace Dusyk.DeploymentScriptCreator
 				default:
 					break;
 			}
+		}
+
+		private void GenerateScriptButton_Click(object sender, RoutedEventArgs e)
+		{
+			OraclePackageCreator oraclePackage = new OraclePackageCreator()
+			{
+				OutputFileName = OutputFileNameText.Text,
+				OutputPath = OutputFolderTextbox.Text
+			};
+
+			oraclePackage.Files = new List<string>();
+
+			foreach (var file in InputFilesListBox.Items)
+			{
+				oraclePackage.Files.Add(file.ToString());
+			}
+
+			oraclePackage.CreateScript();
 		}
 	}
 }

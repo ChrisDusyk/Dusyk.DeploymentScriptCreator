@@ -37,5 +37,10 @@
 			<Label x:Name="OutputFileNameLabel" Content="Output Filename:" VerticalAlignment="Center" HorizontalAlignment="Right"/>
 			<TextBox x:Name="OutputFileNameText" VerticalAlignment="Center" Width="505" Height="30" TextAlignment="Left" VerticalContentAlignment="Center" />
 		</StackPanel>
+		<StackPanel Margin="0" Orientation="Horizontal" Grid.Row="4" Grid.Column="1">
+			<Button x:Name="GenerateScriptButton" VerticalAlignment="Center" HorizontalAlignment="Left" Click="GenerateScriptButton_Click">
+				<Label Margin="0,5,0,5" Content="Generate Script" VerticalAlignment="Center" HorizontalAlignment="Center" />
+			</Button>
+		</StackPanel>
 	</Grid>
 </Window>
