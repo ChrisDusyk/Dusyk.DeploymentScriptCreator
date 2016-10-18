@@ -5,11 +5,14 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:local="clr-namespace:Dusyk.DeploymentScriptCreator"
 		mc:Ignorable="d"
-		Title="MainWindow" Height="600" Width="800">
+		Title="Deployment Script Creator" Height="600" Width="800">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="20" />
 			<RowDefinition Height="*" />
+			<RowDefinition Height="50" />
+			<RowDefinition Height="50" />
+			<RowDefinition Height="50" />
 			<RowDefinition Height="20" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
@@ -17,11 +20,17 @@
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="20" />
 		</Grid.ColumnDefinitions>
-		<StackPanel Margin="10,0,10,0" Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
-			<Label x:Name="OutputFolderLabel" Content="Output Folder:" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-			<TextBox x:Name="OutputFolderTextbox" Height="23" Margin="0,3,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="480"/>
-			<Button x:Name="OutputFolderDialogSelector" Content="..." VerticalAlignment="Center" Margin="5,4" Width="30" Click="OutputFolderDialogSelector_Click" />
+		<StackPanel Margin="0" Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
+			
 		</StackPanel>
-
+		<StackPanel Margin="0" Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
+			<Label x:Name="OutputFolderLabel" Content="Output Folder:" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+			<TextBox x:Name="OutputFolderTextbox" Height="30" Margin="0,3,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Center" Width="480" AcceptsTab="True" TextAlignment="Left" VerticalContentAlignment="Center" />
+			<Button x:Name="OutputFolderDialogSelector" Content="..." VerticalAlignment="Center" Margin="5,4" Width="30" Height="25" Click="OutputFolderDialogSelector_Click" />
+		</StackPanel>
+		<StackPanel Margin="0" Orientation="Horizontal" Grid.Row="3" Grid.Column="1">
+			<Label x:Name="OutputFileNameLabel" Content="Output Filename:" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+			<TextBox x:Name="OutputFileNameText" VerticalAlignment="Center" Width="505" Height="30" TextAlignment="Left" VerticalContentAlignment="Center" />
+		</StackPanel>
 	</Grid>
 </Window>
