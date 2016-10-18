@@ -56,5 +56,34 @@ namespace Dusyk.DeploymentScriptCreator
 					break;
 			}
 		}
+
+		private void InputFilesDialogSelector_Click(object sender, RoutedEventArgs e)
+		{
+			var fileDialog = new CommonOpenFileDialog();
+
+			fileDialog.AllowNonFileSystemItems = true;
+			fileDialog.IsFolderPicker = false;
+			fileDialog.Multiselect = true;
+			fileDialog.Title = "Select scripts to include";
+
+			var result = fileDialog.ShowDialog();
+
+			switch (result)
+			{
+				case CommonFileDialogResult.Ok:
+					var files = fileDialog.FileNames;
+
+					InputFilesListBox.Items.Clear();
+
+					foreach (var file in files)
+					{
+						InputFilesListBox.Items.Add(file);
+					}
+					break;
+				case CommonFileDialogResult.Cancel:
+				default:
+					break;
+			}
+		}
 	}
 }
