@@ -28,19 +28,30 @@
 				<Grid>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="5" />
-						<ColumnDefinition Width="475" />
-						<ColumnDefinition Width="10" />
+						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="15" />
 					</Grid.ColumnDefinitions>
-					<Label x:Name="InputFileLabel" Content="{Binding}" HorizontalAlignment="Left" Grid.Column="1" />
-					<Button x:Name="InputFileDelete" Content="X" Background="Transparent" HorizontalAlignment="Right" Grid.Column="2" Click="InputFileDelete_Click" />
+					<Label x:Name="InputFileLabel" Content="{Binding Path=FileName}" HorizontalAlignment="Left" Grid.Column="1" />
+					<!--<Button x:Name="InputFileDelete" Content="X" Background="Transparent" HorizontalAlignment="Right" Grid.Column="2" Click="InputFileDelete_Click" />-->
 				</Grid>
 			</DataTemplate>
 		</Grid.Resources>
 
 		<StackPanel Margin="0" Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
 			<Label x:Name="InputFilesLabel" Content="Input Files:" HorizontalAlignment="Left" VerticalAlignment="Top" />
-			<ListBox x:Name="InputFilesListBox" Width="500" Height="369" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,0,0,0" ItemsSource="{Binding}" ItemTemplate="{StaticResource InputFilesTemplate}" />
-			<Button x:Name="InputFilesDialogSelector" Width="30" HorizontalAlignment="Left" Margin="5,0,0,0" Content="..." Height="25" VerticalAlignment="Top" Click="InputFilesDialogSelector_Click" />
+			<ListBox x:Name="InputFilesListBox" Width="500" Height="369" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5,0,0,0" ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged}" ItemTemplate="{StaticResource InputFilesTemplate}" />
+			<StackPanel Margin="2" Orientation="Vertical">
+				<Button x:Name="InputFilesDialogSelector" HorizontalAlignment="Left" Margin="5,0,0,5" VerticalAlignment="Top" Click="InputFilesDialogSelector_Click">
+					<ContentControl>
+						<Label Content="Add Files" Margin="2,2,2,2" />
+					</ContentControl>
+				</Button>
+				<Button x:Name="InputFilesDeleteButton" HorizontalAlignment="Left" Margin="5,0,0,5" VerticalAlignment="Top" Click="InputFilesDeleteButton_Click">
+					<ContentControl>
+						<Label Content="Delete Selected" Margin="2,2,2,2" />
+					</ContentControl>
+				</Button>
+			</StackPanel>
 		</StackPanel>
 		<StackPanel Margin="0" Orientation="Horizontal" Grid.Row="2" Grid.Column="1">
 			<Label x:Name="OutputFolderLabel" Content="Output Folder:" HorizontalAlignment="Right" VerticalAlignment="Center" />

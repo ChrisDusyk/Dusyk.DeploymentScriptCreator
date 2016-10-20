@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Dusyk.DeploymentScriptCreator.Models;
+using System.Collections.Generic;
 
 namespace Dusyk.DeploymentScriptCreator.Interfaces
 {
@@ -8,7 +9,7 @@ namespace Dusyk.DeploymentScriptCreator.Interfaces
 
 		string OutputFileName { get; set; }
 
-		List<string> Files { get; set; }
+		List<InputFile> Files { get; set; }
 
 		bool CreateScript();
 	}

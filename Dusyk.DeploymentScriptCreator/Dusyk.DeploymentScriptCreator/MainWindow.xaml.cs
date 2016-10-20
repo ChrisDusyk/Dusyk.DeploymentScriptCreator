@@ -1,4 +1,5 @@
-﻿using Dusyk.DeploymentScriptCreator.Oracle;
+﻿using Dusyk.DeploymentScriptCreator.Models;
+using Dusyk.DeploymentScriptCreator.Oracle;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System.Collections.Generic;
 using System.Windows;
@@ -11,10 +12,14 @@ namespace Dusyk.DeploymentScriptCreator
 	public partial class MainWindow : Window
 	{
 		private string _outputFolder;
+		private List<InputFile> _inputFileList;
 
 		public MainWindow()
 		{
 			InitializeComponent();
+
+			_inputFileList = new List<InputFile>();
+			InputFilesListBox.DataContext = _inputFileList;
 		}
 
 		private void OutputFolderDialogSelector_Click(object sender, RoutedEventArgs e)
@@ -62,11 +67,16 @@ namespace Dusyk.DeploymentScriptCreator
 				case CommonFileDialogResult.Ok:
 					var files = fileDialog.FileNames;
 
-					InputFilesListBox.Items.Clear();
-
 					foreach (var file in files)
 					{
-						InputFilesListBox.Items.Add(file);
+						InputFile addedFile = new InputFile()
+						{
+							FileName = file,
+							FileNameWithPath = file,
+							SortOrder = 0
+						};
+
+						_inputFileList.Add(addedFile);
 					}
 					break;
 
@@ -84,19 +94,24 @@ namespace Dusyk.DeploymentScriptCreator
 				OutputPath = OutputFolderTextbox.Text
 			};
 
-			oraclePackage.Files = new List<string>();
+			oraclePackage.Files = new List<InputFile>();
 
-			foreach (var file in InputFilesListBox.Items)
+			foreach (var file in _inputFileList)
 			{
-				oraclePackage.Files.Add(file.ToString());
+				oraclePackage.Files.Add(file);
 			}
 
 			oraclePackage.CreateScript();
 		}
 
-		private void InputFileDelete_Click(object sender, RoutedEventArgs e)
+		private void InputFilesDeleteButton_Click(object sender, RoutedEventArgs e)
 		{
-			InputFilesListBox.Items.Remove(((System.Windows.Controls.Button)sender).DataContext);
+
 		}
+
+		//private void InputFileDelete_Click(object sender, RoutedEventArgs e)
+		//{
+		//	InputFilesListBox.Items.Remove(((System.Windows.Controls.Button)sender).DataContext);
+		//}
 	}
 }
