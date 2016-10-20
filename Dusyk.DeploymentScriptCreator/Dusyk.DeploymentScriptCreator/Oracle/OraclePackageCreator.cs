@@ -1,17 +1,16 @@
 ﻿using Dusyk.DeploymentScriptCreator.Interfaces;
+using Dusyk.DeploymentScriptCreator.Models;
 using NLog;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Dusyk.DeploymentScriptCreator.Oracle
 {
 	public class OraclePackageCreator : IPackageCreator
 	{
-		public List<string> Files { get; set; }
+		public List<InputFile> Files { get; set; }
 
 		public string OutputPath { get; set; }
 
@@ -25,10 +24,10 @@ namespace Dusyk.DeploymentScriptCreator.Oracle
 			{
 				using (FileStream outputWriter = new FileStream($"{OutputPath}\\{OutputFileName}", FileMode.Create))
 				{
-					foreach (string fileName in Files)
+					foreach (var file in Files)
 					{
 						// Read all text from the file. File.ReadAllText closes the file when completed.
-						string fileContents = File.ReadAllText(fileName);
+						string fileContents = File.ReadAllText(file.FileNameWithPath);
 
 						StringBuilder outputBuilder = new StringBuilder();
 						outputBuilder.Append(fileContents);
@@ -40,7 +39,7 @@ namespace Dusyk.DeploymentScriptCreator.Oracle
 
 						outputWriter.Write(outputBytes, 0, outputBytes.Length);
 
-						_logger.Info("File: {0} added to script.", fileName);
+						_logger.Info("File: {0} added to script.", file);
 					}
 				}
 			}

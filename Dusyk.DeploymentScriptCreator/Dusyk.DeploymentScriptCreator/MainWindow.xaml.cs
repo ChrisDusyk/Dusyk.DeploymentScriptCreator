@@ -1,20 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Windows.Forms;
-using Microsoft.WindowsAPICodePack.Dialogs;
+﻿using Dusyk.DeploymentScriptCreator.Models;
 using Dusyk.DeploymentScriptCreator.Oracle;
+using Microsoft.WindowsAPICodePack.Dialogs;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace Dusyk.DeploymentScriptCreator
 {
@@ -24,10 +13,14 @@ namespace Dusyk.DeploymentScriptCreator
 	public partial class MainWindow : Window
 	{
 		private string _outputFolder;
+		private ObservableCollection<InputFile> _inputFileList;
 
 		public MainWindow()
 		{
 			InitializeComponent();
+
+			_inputFileList = new ObservableCollection<InputFile>();
+			InputFilesListBox.DataContext = _inputFileList;
 		}
 
 		private void OutputFolderDialogSelector_Click(object sender, RoutedEventArgs e)
@@ -50,6 +43,7 @@ namespace Dusyk.DeploymentScriptCreator
 					_outputFolder = folderDialog.FileName;
 
 					break;
+
 				case CommonFileDialogResult.Cancel:
 				default:
 					OutputFolderTextbox.Text = null;
@@ -74,13 +68,19 @@ namespace Dusyk.DeploymentScriptCreator
 				case CommonFileDialogResult.Ok:
 					var files = fileDialog.FileNames;
 
-					InputFilesListBox.Items.Clear();
-
 					foreach (var file in files)
 					{
-						InputFilesListBox.Items.Add(file);
+						InputFile addedFile = new InputFile()
+						{
+							FileName = file,
+							FileNameWithPath = file,
+							SortOrder = 0
+						};
+
+						_inputFileList.Add(addedFile);
 					}
 					break;
+
 				case CommonFileDialogResult.Cancel:
 				default:
 					break;
@@ -95,19 +95,29 @@ namespace Dusyk.DeploymentScriptCreator
 				OutputPath = OutputFolderTextbox.Text
 			};
 
-			oraclePackage.Files = new List<string>();
+			oraclePackage.Files = new List<InputFile>();
 
-			foreach (var file in InputFilesListBox.Items)
+			foreach (var file in _inputFileList)
 			{
-				oraclePackage.Files.Add(file.ToString());
+				oraclePackage.Files.Add(file);
 			}
 
 			oraclePackage.CreateScript();
 		}
 
-		private void InputFileDelete_Click(object sender, RoutedEventArgs e)
+		private void InputFilesDeleteButton_Click(object sender, RoutedEventArgs e)
 		{
-			InputFilesListBox.Items.Remove(((System.Windows.Controls.Button)sender).DataContext);
+			if (InputFilesListBox.SelectedItem != null)
+			{
+				
+				InputFile[] selectedFiles = new InputFile[InputFilesListBox.SelectedItems.Count];
+				InputFilesListBox.SelectedItems.CopyTo(selectedFiles, 0);
+
+				foreach (var item in selectedFiles)
+				{
+					_inputFileList.Remove(item);
+				}
+			}
 		}
 	}
 }
