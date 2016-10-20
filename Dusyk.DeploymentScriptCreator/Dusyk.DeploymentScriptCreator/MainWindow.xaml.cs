@@ -109,10 +109,5 @@ namespace Dusyk.DeploymentScriptCreator
 		{
 
 		}
-
-		//private void InputFileDelete_Click(object sender, RoutedEventArgs e)
-		//{
-		//	InputFilesListBox.Items.Remove(((System.Windows.Controls.Button)sender).DataContext);
-		//}
 	}
 }

@@ -39,7 +39,8 @@
 
 		<StackPanel Margin="0" Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
 			<Label x:Name="InputFilesLabel" Content="Input Files:" HorizontalAlignment="Left" VerticalAlignment="Top" />
-			<ListBox x:Name="InputFilesListBox" Width="500" Height="369" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5,0,0,0" ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged}" ItemTemplate="{StaticResource InputFilesTemplate}" />
+			<ListBox x:Name="InputFilesListBox" Width="500" Height="369" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5,0,0,0" 
+					 ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged}" ItemTemplate="{StaticResource InputFilesTemplate}" SelectionMode="Extended" />
 			<StackPanel Margin="2" Orientation="Vertical">
 				<Button x:Name="InputFilesDialogSelector" HorizontalAlignment="Left" Margin="5,0,0,5" VerticalAlignment="Top" Click="InputFilesDialogSelector_Click">
 					<ContentControl>
