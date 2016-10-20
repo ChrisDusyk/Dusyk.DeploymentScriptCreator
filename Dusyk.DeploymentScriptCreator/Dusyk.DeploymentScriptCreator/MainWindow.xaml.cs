@@ -107,7 +107,17 @@ namespace Dusyk.DeploymentScriptCreator
 
 		private void InputFilesDeleteButton_Click(object sender, RoutedEventArgs e)
 		{
+			if (InputFilesListBox.SelectedItem != null)
+			{
+				
+				InputFile[] selectedFiles = new InputFile[InputFilesListBox.SelectedItems.Count];
+				InputFilesListBox.SelectedItems.CopyTo(selectedFiles, 0);
 
+				foreach (var item in selectedFiles)
+				{
+					_inputFileList.Remove(item);
+				}
+			}
 		}
 	}
 }
