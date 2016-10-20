@@ -23,10 +23,18 @@
 
 		<Grid.Resources>
 			<DataTemplate x:Key="InputFilesTemplate">
-				<StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-					<Label x:Name="InputFileLabel" Content="{Binding}" HorizontalAlignment="Left" />
-					<Button x:Name="InputFileDelete" Content="X" Background="Transparent" HorizontalAlignment="Right" Click="InputFileDelete_Click" />
-				</StackPanel>
+				<!--<StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+					
+				</StackPanel>-->
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="5" />
+						<ColumnDefinition Width="*" />
+						<ColumnDefinition Width="10" />
+					</Grid.ColumnDefinitions>
+					<Label x:Name="InputFileLabel" Content="{Binding}" HorizontalAlignment="Left" Grid.Column="1" />
+					<Button x:Name="InputFileDelete" Content="X" Background="Transparent" HorizontalAlignment="Right" Grid.Column="2" Click="InputFileDelete_Click" />
+				</Grid>
 			</DataTemplate>
 		</Grid.Resources>
 
