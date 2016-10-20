@@ -2,6 +2,7 @@
 using Dusyk.DeploymentScriptCreator.Oracle;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows;
 
 namespace Dusyk.DeploymentScriptCreator
@@ -12,13 +13,13 @@ namespace Dusyk.DeploymentScriptCreator
 	public partial class MainWindow : Window
 	{
 		private string _outputFolder;
-		private List<InputFile> _inputFileList;
+		private ObservableCollection<InputFile> _inputFileList;
 
 		public MainWindow()
 		{
 			InitializeComponent();
 
-			_inputFileList = new List<InputFile>();
+			_inputFileList = new ObservableCollection<InputFile>();
 			InputFilesListBox.DataContext = _inputFileList;
 		}
 
