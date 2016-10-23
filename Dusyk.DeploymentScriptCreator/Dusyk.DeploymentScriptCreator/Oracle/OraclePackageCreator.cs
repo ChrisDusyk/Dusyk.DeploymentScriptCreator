@@ -2,8 +2,10 @@
 using Dusyk.DeploymentScriptCreator.Models;
 using NLog;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace Dusyk.DeploymentScriptCreator.Oracle
@@ -22,9 +24,11 @@ namespace Dusyk.DeploymentScriptCreator.Oracle
 		{
 			try
 			{
+				var sortedList = Files.OrderBy(files => files.SortOrder).ToList();
+
 				using (FileStream outputWriter = new FileStream($"{OutputPath}\\{OutputFileName}", FileMode.Create))
 				{
-					foreach (var file in Files)
+					foreach (var file in sortedList)
 					{
 						// Read all text from the file. File.ReadAllText closes the file when completed.
 						string fileContents = File.ReadAllText(file.FileNameWithPath);

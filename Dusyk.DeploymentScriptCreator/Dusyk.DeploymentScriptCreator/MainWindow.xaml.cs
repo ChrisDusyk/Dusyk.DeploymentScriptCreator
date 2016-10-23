@@ -5,6 +5,8 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Linq;
+using NLog;
 
 namespace Dusyk.DeploymentScriptCreator
 {
@@ -15,6 +17,7 @@ namespace Dusyk.DeploymentScriptCreator
 	{
 		private string _outputFolder;
 		private ObservableCollection<InputFile> _inputFileList;
+		private static Logger _logger = LogManager.GetLogger("MainWpfWindow");
 
 		public MainWindow()
 		{
@@ -123,7 +126,66 @@ namespace Dusyk.DeploymentScriptCreator
 					_inputFileList.Remove(item);
 				}
 
-				_inputFileList = new ObservableCollection<InputFile>(_inputFileList.RecalculateSortOrder());
+				_inputFileList = _inputFileList.RecalculateSortOrder();
+			}
+		}
+
+		private void InputFileUp_Click(object sender, RoutedEventArgs e)
+		{
+			InputFile[] selectedFiles = new InputFile[InputFilesListBox.SelectedItems.Count];
+			InputFilesListBox.SelectedItems.CopyTo(selectedFiles, 0);
+
+			foreach (var file in selectedFiles)
+			{
+				int indexA = _inputFileList.IndexOf((InputFile)file);
+				int indexB = indexA + 1;
+
+				_inputFileList = _inputFileList.Swap(indexA, indexB);
+			}
+
+			_inputFileList = _inputFileList.RecalculateSortOrder();
+		}
+
+		private void InputFileDown_Click(object sender, RoutedEventArgs e)
+		{
+			InputFile[] selectedFiles = new InputFile[InputFilesListBox.SelectedItems.Count];
+			InputFilesListBox.SelectedItems.CopyTo(selectedFiles, 0);
+
+			foreach (var file in selectedFiles)
+			{
+				int indexA = _inputFileList.IndexOf((InputFile)file);
+				int indexB = indexA + 1;
+
+				_inputFileList = _inputFileList.Swap(indexA, indexB);
+			}
+
+			_inputFileList = _inputFileList.RecalculateSortOrder();
+		}
+
+		private void InputFilesListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+		{
+			InputFileUp.IsEnabled = true;
+			InputFileDown.IsEnabled = true;
+
+			foreach (var file in InputFilesListBox.SelectedItems)
+			{
+				var typedFile = _inputFileList.FirstOrDefault(f => f.FileNameWithPath == ((InputFile)file).FileNameWithPath);
+
+				if (typedFile == null)
+				{
+					_logger.Warn($"No file returned from file list for {((InputFile)file)?.FileNameWithPath}");
+				}
+				else
+				{
+					if (typedFile.SortOrder == 0)
+					{
+						InputFileUp.IsEnabled = false;
+					}
+					else if (typedFile.SortOrder == _inputFileList.Count - 1)
+					{
+						InputFileDown.IsEnabled = false;
+					}
+				}
 			}
 		}
 	}
