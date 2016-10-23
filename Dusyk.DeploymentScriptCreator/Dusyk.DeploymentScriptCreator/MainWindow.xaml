@@ -25,21 +25,24 @@
 			<DataTemplate x:Key="InputFilesTemplate">
 				<!--<StackPanel VerticalAlignment="Center" Orientation="Horizontal">
 				</StackPanel>-->
-				<Grid>
+				<Grid HorizontalAlignment="Stretch">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="5" />
-						<ColumnDefinition Width="*" />
-						<ColumnDefinition Width="15" />
+						<ColumnDefinition Width="*" SharedSizeGroup="FileNameColumn" />
+						<ColumnDefinition Width="Auto" SharedSizeGroup="FileUpColumn" />
+						<ColumnDefinition Width="Auto" SharedSizeGroup="FileDownColumn" />
+						<ColumnDefinition Width="5" />
 					</Grid.ColumnDefinitions>
 					<Label x:Name="InputFileLabel" Content="{Binding Path=FileName}" HorizontalAlignment="Left" Grid.Column="1" />
-					<!--<Button x:Name="InputFileDelete" Content="X" Background="Transparent" HorizontalAlignment="Right" Grid.Column="2" Click="InputFileDelete_Click" />-->
+					<Button x:Name="InputFileUp" Content="Up" HorizontalAlignment="Center" Grid.Column="2" Width="16" Margin="2,0,2,0" />
+					<Button x:Name="InputFileDown" Content="D" HorizontalAlignment="Center" Grid.Column="3" Width="16" Margin="2,0,2,0" />
 				</Grid>
 			</DataTemplate>
 		</Grid.Resources>
 
 		<StackPanel Margin="0" Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
 			<Label x:Name="InputFilesLabel" Content="Input Files:" HorizontalAlignment="Left" VerticalAlignment="Top" />
-			<ListBox x:Name="InputFilesListBox" Width="500" Height="369" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5,0,0,0" 
+			<ListBox x:Name="InputFilesListBox" Width="500" Height="369" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="5,0,0,0" Grid.IsSharedSizeScope="True"
 					 ItemsSource="{Binding UpdateSourceTrigger=PropertyChanged}" ItemTemplate="{StaticResource InputFilesTemplate}" SelectionMode="Extended" />
 			<StackPanel Margin="2" Orientation="Vertical">
 				<Button x:Name="InputFilesDialogSelector" HorizontalAlignment="Left" Margin="5,0,0,5" VerticalAlignment="Top" Click="InputFilesDialogSelector_Click">
