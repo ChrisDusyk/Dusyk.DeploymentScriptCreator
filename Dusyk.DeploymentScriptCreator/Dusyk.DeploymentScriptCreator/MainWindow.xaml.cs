@@ -1,5 +1,6 @@
 ﻿using Dusyk.DeploymentScriptCreator.Models;
 using Dusyk.DeploymentScriptCreator.Oracle;
+using Dusyk.DeploymentScriptCreator.Util;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,6 +22,7 @@ namespace Dusyk.DeploymentScriptCreator
 
 			_inputFileList = new ObservableCollection<InputFile>();
 			InputFilesListBox.DataContext = _inputFileList;
+			InputFilesListBox.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("SortOrder", System.ComponentModel.ListSortDirection.Ascending));
 		}
 
 		private void OutputFolderDialogSelector_Click(object sender, RoutedEventArgs e)
@@ -62,6 +64,7 @@ namespace Dusyk.DeploymentScriptCreator
 			fileDialog.Title = "Select scripts to include";
 
 			var result = fileDialog.ShowDialog();
+			int fileCount = _inputFileList.Count;
 
 			switch (result)
 			{
@@ -74,8 +77,10 @@ namespace Dusyk.DeploymentScriptCreator
 						{
 							FileName = file,
 							FileNameWithPath = file,
-							SortOrder = 0
+							SortOrder = fileCount
 						};
+
+						fileCount++;
 
 						_inputFileList.Add(addedFile);
 					}
@@ -117,6 +122,8 @@ namespace Dusyk.DeploymentScriptCreator
 				{
 					_inputFileList.Remove(item);
 				}
+
+				_inputFileList = new ObservableCollection<InputFile>(_inputFileList.RecalculateSortOrder());
 			}
 		}
 	}
