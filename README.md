@@ -17,6 +17,3 @@ To get started contributing to this project, you will need:
 Please use good formatting when contributing to this codebase. All Pull Requests will be reviewed for proper conventions and formatting. Please look at the existing codefiles to see how things have been structured, however it's all fairly similar to standard MS formatting. 
 
 __Important Note: TABS, not spaces__
-
-----------
-__Please note, this is still in a very alpha state__ 
