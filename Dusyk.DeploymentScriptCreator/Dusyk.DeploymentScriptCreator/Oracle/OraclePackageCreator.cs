@@ -49,9 +49,11 @@ namespace Dusyk.DeploymentScriptCreator.Oracle
 						string fileContents = File.ReadAllText(file.FileNameWithPath);
 
 						StringBuilder outputBuilder = new StringBuilder();
+						outputBuilder.AppendLine($"-- Start File: {file.FileName}");
 						outputBuilder.Append(fileContents);
 						outputBuilder.AppendLine();
 						outputBuilder.AppendLine("COMMIT;");
+						outputBuilder.AppendLine($"-- End File: {file.FileName}");
 						outputBuilder.AppendLine();
 
 						byte[] outputBytes = Encoding.UTF8.GetBytes(outputBuilder.ToString());
