@@ -50,6 +50,11 @@
 					<Label Content="Delete Selected" Margin="2,2,2,2" />
 				</ContentControl>
 			</Button>
+			<Button x:Name="ClearInputFiles" HorizontalAlignment="Left" Margin="5,0,0,5" VerticalAlignment="Top" Click="ClearInputFiles_Click">
+				<ContentControl>
+					<Label Content="Clear All Files" Margin="2" />
+				</ContentControl>
+			</Button>
 			<Button x:Name="InputFileUp" HorizontalAlignment="Left" Margin="5,0,0,5" VerticalAlignment="Top" Click="InputFileUp_Click">
 				<ContentControl>
 					<Label Content="Move Up" Margin="2" />

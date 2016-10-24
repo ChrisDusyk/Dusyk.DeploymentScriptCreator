@@ -222,5 +222,15 @@ namespace Dusyk.DeploymentScriptCreator
 				}
 			}
 		}
+
+		/// <summary>
+		/// Click handler for ClearInputFiles which clears all items from the input files list.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void ClearInputFiles_Click(object sender, RoutedEventArgs e)
+		{
+			_inputFileList.Clear();
+		}
 	}
 }
