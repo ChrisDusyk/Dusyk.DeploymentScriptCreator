@@ -129,6 +129,10 @@ namespace Dusyk.DeploymentScriptCreator
 			}
 
 			oraclePackage.CreateScript();
+
+			// Once completed, notify the user and clear out the data
+			MessageBox.Show($"Script has been created at {oraclePackage.OutputPath}\\{oraclePackage.OutputFileName}", "Script created!", MessageBoxButton.OK);
+			ClearAllFields();
 		}
 
 		/// <summary>
@@ -231,6 +235,20 @@ namespace Dusyk.DeploymentScriptCreator
 		private void ClearInputFiles_Click(object sender, RoutedEventArgs e)
 		{
 			_inputFileList.Clear();
+		}
+
+		/// <summary>
+		/// Clears all UI fields that the user would have filled out.
+		/// </summary>
+		private void ClearAllFields()
+		{
+			_inputFileList.Clear();
+
+			OutputFileNameText.Text = null;
+			OutputFileNameText.ToolTip = null;
+
+			OutputFolderTextbox.Text = null;
+			OutputFolderTextbox.ToolTip = null;
 		}
 	}
 }
