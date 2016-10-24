@@ -1,23 +1,28 @@
-﻿using Dusyk.DeploymentScriptCreator.Models;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.ObjectModel;
 
 namespace Dusyk.DeploymentScriptCreator.Util
 {
+	/// <summary>
+	/// General extension methods.
+	/// </summary>
 	public static class Extensions
 	{
-		public static IEnumerable<InputFile> RecalculateSortOrder(this IEnumerable<InputFile> inputFiles)
+		/// <summary>
+		/// Swap two entries in the collection.
+		/// </summary>
+		/// <typeparam name="InputFile"></typeparam>
+		/// <param name="list">Extension syntax for the list being operated on.</param>
+		/// <param name="indexA">Index of the first item.</param>
+		/// <param name="indexB">Index of the second item.</param>
+		/// <returns>List with swap applied.</returns>
+		public static ObservableCollection<InputFile> Swap<InputFile>(this ObservableCollection<InputFile> list, int indexA, int indexB)
 		{
-			var orderedList = inputFiles.OrderBy(files => files.SortOrder);
-			int sortIndex = 0;
+			InputFile temp = list[indexA];
 
-			foreach (var file in orderedList)
-			{
-				file.SortOrder = sortIndex;
-				sortIndex++;
-			}
+			list.RemoveAt(indexA);
+			list.Insert(indexB, temp);
 
-			return orderedList;
+			return list;
 		}
 	}
 }
