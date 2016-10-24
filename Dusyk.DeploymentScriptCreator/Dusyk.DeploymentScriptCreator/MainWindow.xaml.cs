@@ -2,11 +2,11 @@
 using Dusyk.DeploymentScriptCreator.Oracle;
 using Dusyk.DeploymentScriptCreator.Util;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using NLog;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Windows;
 using System.Linq;
-using NLog;
+using System.Windows;
 
 namespace Dusyk.DeploymentScriptCreator
 {
@@ -15,22 +15,35 @@ namespace Dusyk.DeploymentScriptCreator
 	/// </summary>
 	public partial class MainWindow : Window
 	{
-		private string _outputFolder;
+		/// <summary>
+		/// List of files to be added to the deployment script. This is an ObservableCollection as it triggers updates to the ListBox view upon any change to the collection.
+		/// </summary>
 		private ObservableCollection<InputFile> _inputFileList;
+
+		/// <summary>
+		/// NLog logger instance for the MainWindow.
+		/// </summary>
 		private static Logger _logger = LogManager.GetLogger("MainWpfWindow");
 
 		public MainWindow()
 		{
 			InitializeComponent();
 
+			// Set up the _inputFileList collection as the data source for the InputFilesListBox control
 			_inputFileList = new ObservableCollection<InputFile>();
 			InputFilesListBox.DataContext = _inputFileList;
 		}
 
+		/// <summary>
+		/// Click event for selecting the output folder of the deployment script. This opens a folder selection dialog and populates the TextBox with the folder path.
+		/// </summary>
+		/// <param name="sender">Sender object</param>
+		/// <param name="e">Event args, not used by the handler</param>
 		private void OutputFolderDialogSelector_Click(object sender, RoutedEventArgs e)
 		{
 			var folderDialog = new CommonOpenFileDialog();
 
+			// Set up dialog for selecting output folder
 			folderDialog.AllowNonFileSystemItems = true;
 			folderDialog.IsFolderPicker = true;
 			folderDialog.Title = "Select script output folder";
@@ -44,8 +57,6 @@ namespace Dusyk.DeploymentScriptCreator
 					OutputFolderTextbox.Text = folder;
 					OutputFolderTextbox.ToolTip = folder;
 
-					_outputFolder = folderDialog.FileName;
-
 					break;
 
 				case CommonFileDialogResult.Cancel:
@@ -56,6 +67,11 @@ namespace Dusyk.DeploymentScriptCreator
 			}
 		}
 
+		/// <summary>
+		/// Click even handler for adding files to the input files list. This opens the mutli-select file picker dialog.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void InputFilesDialogSelector_Click(object sender, RoutedEventArgs e)
 		{
 			var fileDialog = new CommonOpenFileDialog();
@@ -70,6 +86,7 @@ namespace Dusyk.DeploymentScriptCreator
 			switch (result)
 			{
 				case CommonFileDialogResult.Ok:
+					// Add all files selected to the _inputFileList
 					var files = fileDialog.FileNames;
 
 					foreach (var file in files)
@@ -90,8 +107,14 @@ namespace Dusyk.DeploymentScriptCreator
 			}
 		}
 
+		/// <summary>
+		/// Click event handler to create the deployment script based on the database variant.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void GenerateScriptButton_Click(object sender, RoutedEventArgs e)
 		{
+			// Set up for creating an Oracle deployment script
 			OraclePackageCreator oraclePackage = new OraclePackageCreator()
 			{
 				OutputFileName = OutputFileNameText.Text,
@@ -108,11 +131,16 @@ namespace Dusyk.DeploymentScriptCreator
 			oraclePackage.CreateScript();
 		}
 
+		/// <summary>
+		/// Click event handler to delete files from the list of input files.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void InputFilesDeleteButton_Click(object sender, RoutedEventArgs e)
 		{
 			if (InputFilesListBox.SelectedItem != null)
 			{
-				
+				// Copy to an array as deleting while iterating through the InputFilesListBox.Items collection causes weird behaviour
 				InputFile[] selectedFiles = new InputFile[InputFilesListBox.SelectedItems.Count];
 				InputFilesListBox.SelectedItems.CopyTo(selectedFiles, 0);
 
@@ -123,8 +151,14 @@ namespace Dusyk.DeploymentScriptCreator
 			}
 		}
 
+		/// <summary>
+		/// Click event handler to move the selected file up one spot in the input files list.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void InputFileUp_Click(object sender, RoutedEventArgs e)
 		{
+			// Copy to an array as deleting while iterating through the InputFilesListBox.Items collection causes weird behaviour
 			InputFile[] selectedFiles = new InputFile[InputFilesListBox.SelectedItems.Count];
 			InputFilesListBox.SelectedItems.CopyTo(selectedFiles, 0);
 
@@ -137,8 +171,14 @@ namespace Dusyk.DeploymentScriptCreator
 			}
 		}
 
+		/// <summary>
+		/// Click event handler to move the selected file down one spot in the input files list.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void InputFileDown_Click(object sender, RoutedEventArgs e)
 		{
+			// Copy to an array as deleting while iterating through the InputFilesListBox.Items collection causes weird behaviour
 			InputFile[] selectedFiles = new InputFile[InputFilesListBox.SelectedItems.Count];
 			InputFilesListBox.SelectedItems.CopyTo(selectedFiles, 0);
 
@@ -151,6 +191,11 @@ namespace Dusyk.DeploymentScriptCreator
 			}
 		}
 
+		/// <summary>
+		/// SelectionChanged handler to check the bounds of the selected items and ensure they can move up or down in the list.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void InputFilesListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
 		{
 			InputFileUp.IsEnabled = true;

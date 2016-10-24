@@ -1,5 +1,8 @@
 ﻿namespace Dusyk.DeploymentScriptCreator
 {
+	/// <summary>
+	/// List of supported database variants.
+	/// </summary>
 	internal enum DatabaseTypes
 	{
 		Oracle = 0,
