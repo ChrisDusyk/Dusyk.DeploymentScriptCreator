@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<?define Dusyk.DeploymentScriptCreator_TargetDir=$(var.Dusyk.DeploymentScriptCreator.TargetDir)?>
+	<Product Id="b5fee8dc-1be4-4164-950f-b1b3c987bd6e" Name="Deployment Script Creator" Language="1033" Version="1.0.0.0" Manufacturer="Chris Dusyk" UpgradeCode="85b566c6-3fb4-430a-9763-3a19e00bf355">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+		<UIRef Id="WixUI_Minimal" />
+
+		<WixVariable Id="WixUILicenseRtf" Value="$(var.ProjectDir)\licence.rtf" />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+		<MediaTemplate EmbedCab="yes" />
+
+		<Feature Id="ProductFeature" Title="Deployment Script Creator" Level="1">
+			<ComponentGroupRef Id="ProductComponents" />
+			<ComponentRef Id="ApplicationShortcut" />
+			<ComponentRef Id="ApplicationShortcutDesktop" />
+		</Feature>
+	</Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="INSTALLFOLDER" Name="Deployment Script Creator" />
+			</Directory>
+			<Directory Id="ProgramMenuFolder">
+				<Directory Id="ApplicationProgramsFolder" Name="Deployment Script Creator" />
+			</Directory>
+			<Directory Id="DesktopFolder" Name="Desktop" />
+		</Directory>
+	</Fragment>
+
+	<Fragment>
+		<DirectoryRef Id="ApplicationProgramsFolder">
+			<Component Id="ApplicationShortcut" Guid="4a39ba01-2eac-419b-aaac-8764254c88d7">
+				<Shortcut Id="ApplicationStartMenuShortcut" Name="Deployment Script Creator" Description="Deployment Script Creator" Target="[INSTALLFOLDER]Dusyk.DeploymentScriptCreator.exe" WorkingDirectory="INSTALLFOLDER" />
+				<RemoveFolder Id="RemoveApplicationProgramsFolder" Directory="ApplicationProgramsFolder" On="uninstall" />
+				<RegistryValue Root="HKCU" Key="Software\Deployment Script Creator" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+			</Component>
+		</DirectoryRef>
+		<DirectoryRef Id="DesktopFolder">
+			<Component Id="ApplicationShortcutDesktop" Guid="6c15c51f-04a1-444d-97e5-da4bf9da7909">
+				<Shortcut Id="ApplicationDesktopShortcut" Name="Deployment Script Creator" Description="Deployment Script Creator" Target="[INSTALLFOLDER]Dusyk.DeploymentScriptCreator.exe" WorkingDirectory="INSTALLFOLDER" />
+				<RemoveFolder Id="RemoveDesktopFolder" Directory="DesktopFolder" On="uninstall" />
+				<RegistryValue Root="HKCU" Key="Software\Deployment Script Creator" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+			</Component>
+		</DirectoryRef>
+	</Fragment>
+
+	<Fragment>
+		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+			<Component Id="Microsoft.WindowsAPICodePack.dll" Guid="3843aa8a-face-468f-b2ac-ab80a4004fa6">
+				<File Id="Microsoft.WindowsAPICodePack.dll" Name="Microsoft.WindowsAPICodePack.dll" Source="$(var.Dusyk.DeploymentScriptCreator_TargetDir)Microsoft.WindowsAPICodePack.dll" />
+			</Component>
+			<Component Id="Microsoft.WindowsAPICodePack.Shell.dll" Guid="aea00f82-a00c-49e3-a5a5-1e52d5d6fc60">
+				<File Id="Microsoft.WindowsAPICodePack.Shell.dll" Name="Microsoft.WindowsAPICodePack.Shell.dll" Source="$(var.Dusyk.DeploymentScriptCreator_TargetDir)Microsoft.WindowsAPICodePack.Shell.dll" />
+			</Component>
+			<Component Id="Microsoft.WindowsAPICodePack.ShellExtensions.dll" Guid="77bfd661-731f-4cea-85ff-169681c4ef0d">
+				<File Id="Microsoft.WindowsAPICodePack.ShellExtensions.dll" Name="Microsoft.WindowsAPICodePack.ShellExtensions.dll" Source="$(var.Dusyk.DeploymentScriptCreator_TargetDir)Microsoft.WindowsAPICodePack.ShellExtensions.dll" />
+			</Component>
+			<Component Id="NLog.dll" Guid="f963f739-eff6-4915-91a7-0ef017781ddc">
+				<File Id="NLog.dll" Name="NLog.dll" Source="$(var.Dusyk.DeploymentScriptCreator_TargetDir)NLog.dll" />
+			</Component>
+			<Component Id="Dusyk.DeploymentScriptCreator.exe.config" Guid="9559ee99-0c88-491f-8967-3dddacbffda0">
+				<File Id="Dusyk.DeploymentScriptCreator.exe.config" Name="Dusyk.DeploymentScriptCreator.exe.config" Source="$(var.Dusyk.DeploymentScriptCreator_TargetDir)Dusyk.DeploymentScriptCreator.exe.config" />
+			</Component>
+			<Component Id="Dusyk.DeploymentScriptCreator.exe" Guid="0486a846-8ad6-4af0-9bbc-461d08c84177">
+				<File Id="Dusyk.DeploymentScriptCreator.exe" Name="Dusyk.DeploymentScriptCreator.exe" Source="$(var.Dusyk.DeploymentScriptCreator_TargetDir)Dusyk.DeploymentScriptCreator.exe" />
+			</Component>
+			<Component Id="NLog.config" Guid="367f3564-73d9-41f5-889b-6d87dd127651">
+				<File Id="NLog.config" Name="NLog.config" Source="$(var.Dusyk.DeploymentScriptCreator_TargetDir)NLog.config" />
+			</Component>
+		</ComponentGroup>
+	</Fragment>
+</Wix>
