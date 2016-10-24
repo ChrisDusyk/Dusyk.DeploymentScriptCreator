@@ -24,11 +24,9 @@ namespace Dusyk.DeploymentScriptCreator.Oracle
 		{
 			try
 			{
-				var sortedList = Files.OrderBy(files => files.SortOrder).ToList();
-
 				using (FileStream outputWriter = new FileStream($"{OutputPath}\\{OutputFileName}", FileMode.Create))
 				{
-					foreach (var file in sortedList)
+					foreach (var file in Files)
 					{
 						// Read all text from the file. File.ReadAllText closes the file when completed.
 						string fileContents = File.ReadAllText(file.FileNameWithPath);

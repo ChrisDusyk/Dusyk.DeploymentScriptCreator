@@ -25,7 +25,6 @@ namespace Dusyk.DeploymentScriptCreator
 
 			_inputFileList = new ObservableCollection<InputFile>();
 			InputFilesListBox.DataContext = _inputFileList;
-			InputFilesListBox.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("SortOrder", System.ComponentModel.ListSortDirection.Ascending));
 		}
 
 		private void OutputFolderDialogSelector_Click(object sender, RoutedEventArgs e)
@@ -67,7 +66,6 @@ namespace Dusyk.DeploymentScriptCreator
 			fileDialog.Title = "Select scripts to include";
 
 			var result = fileDialog.ShowDialog();
-			int fileCount = _inputFileList.Count;
 
 			switch (result)
 			{
@@ -79,11 +77,8 @@ namespace Dusyk.DeploymentScriptCreator
 						InputFile addedFile = new InputFile()
 						{
 							FileName = file,
-							FileNameWithPath = file,
-							SortOrder = fileCount
+							FileNameWithPath = file
 						};
-
-						fileCount++;
 
 						_inputFileList.Add(addedFile);
 					}
@@ -125,8 +120,6 @@ namespace Dusyk.DeploymentScriptCreator
 				{
 					_inputFileList.Remove(item);
 				}
-
-				_inputFileList = _inputFileList.RecalculateSortOrder();
 			}
 		}
 
@@ -137,13 +130,11 @@ namespace Dusyk.DeploymentScriptCreator
 
 			foreach (var file in selectedFiles)
 			{
-				int indexA = _inputFileList.IndexOf((InputFile)file);
-				int indexB = indexA + 1;
+				int indexA = _inputFileList.IndexOf(file);
+				int indexB = indexA - 1;
 
 				_inputFileList = _inputFileList.Swap(indexA, indexB);
 			}
-
-			_inputFileList = _inputFileList.RecalculateSortOrder();
 		}
 
 		private void InputFileDown_Click(object sender, RoutedEventArgs e)
@@ -153,13 +144,11 @@ namespace Dusyk.DeploymentScriptCreator
 
 			foreach (var file in selectedFiles)
 			{
-				int indexA = _inputFileList.IndexOf((InputFile)file);
+				int indexA = _inputFileList.IndexOf(file);
 				int indexB = indexA + 1;
 
 				_inputFileList = _inputFileList.Swap(indexA, indexB);
 			}
-
-			_inputFileList = _inputFileList.RecalculateSortOrder();
 		}
 
 		private void InputFilesListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -177,11 +166,11 @@ namespace Dusyk.DeploymentScriptCreator
 				}
 				else
 				{
-					if (typedFile.SortOrder == 0)
+					if (_inputFileList.IndexOf(typedFile) == 0)
 					{
 						InputFileUp.IsEnabled = false;
 					}
-					else if (typedFile.SortOrder == _inputFileList.Count - 1)
+					else if (_inputFileList.IndexOf(typedFile) == _inputFileList.Count - 1)
 					{
 						InputFileDown.IsEnabled = false;
 					}

@@ -29,8 +29,6 @@
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="5" />
 						<ColumnDefinition Width="*" SharedSizeGroup="FileNameColumn" />
-						<ColumnDefinition Width="Auto" SharedSizeGroup="FileUpColumn" />
-						<ColumnDefinition Width="Auto" SharedSizeGroup="FileDownColumn" />
 						<ColumnDefinition Width="5" />
 					</Grid.ColumnDefinitions>
 					<Label x:Name="InputFileLabel" Content="{Binding Path=FileName}" HorizontalAlignment="Left" Grid.Column="1" />
